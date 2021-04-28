@@ -358,3 +358,8 @@ Code/Old/
 SampleCode/Chapter_16/CSharpCarClient/selfcontained/
 SampleCode/Chapter_16/CSharpCarClient/singlefile/
 SampleCode/Chapter_16/CSharpCarClient/truesinglefile/
+/MyCode/Chapter_16/ConsoleApp/singlefile/clrcompression.dll
+/MyCode/Chapter_16/ConsoleApp/singlefile/clrjit.dll
+/MyCode/Chapter_16/ConsoleApp/singlefile/ConsoleApp.exe
+/MyCode/Chapter_16/ConsoleApp/singlefile/coreclr.dll
+/MyCode/Chapter_16/ConsoleApp/singlefile/mscordaccore.dll
