@@ -1,6 +1,3 @@
-using System;
-using System.IO;
-using System.Reflection;
 using AutoLot.Api.Filters;
 using AutoLot.Dal.EfStructures;
 using AutoLot.Dal.Initialization;
@@ -14,6 +11,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Serilog;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace AutoLot.Api
 {
@@ -21,7 +22,8 @@ namespace AutoLot.Api
     {
         private readonly IWebHostEnvironment _env;
 
-        public Startup(IConfiguration configuration, IWebHostEnvironment env)
+        public Startup(IConfiguration configuration,
+            IWebHostEnvironment env)
         {
             _env = env;
             Configuration = configuration;
@@ -32,7 +34,6 @@ namespace AutoLot.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers(
                    config => config.Filters.Add(new CustomExceptionFilterAttribute(_env))
                 )
@@ -84,7 +85,9 @@ namespace AutoLot.Api
                             Url = new Uri("http://www.skimedic.com")
                         }
                     });
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var assembly = Assembly.GetExecutingAssembly();
+                Log.Logger.Information("{Name},{FullName}", assembly.GetName().Name, assembly.GetName().FullName);
+                var xmlFile = $"{assembly.GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });

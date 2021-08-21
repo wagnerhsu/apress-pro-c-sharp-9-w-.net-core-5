@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.MSSqlServer;
+using System;
+using System.Collections.Generic;
+using System.Data;
 
 namespace AutoLot.Services.Logging
 {
@@ -33,7 +33,11 @@ namespace AutoLot.Services.Logging
         public static IHostBuilder ConfigureSerilog(this IHostBuilder builder)
         {
             builder
-                .ConfigureLogging((context, logging) => { logging.ClearProviders(); })
+                .ConfigureLogging((context, logging) =>
+                {
+                    logging.ClearProviders();
+
+                })
                 .UseSerilog((hostingContext, loggerConfiguration) =>
             {
                 var config = hostingContext.Configuration;
@@ -65,11 +69,11 @@ namespace AutoLot.Services.Logging
                     .Enrich.WithMachineName()
                     //.ReadFrom.Configuration(hostingContext.Configuration)
                     .WriteTo.File(
-                        path: "ErrorLog.txt",
+                        path: "Logs/AutoLot.Api.log",
                         rollingInterval: RollingInterval.Day,
                         restrictedToMinimumLevel: logLevel,
                         outputTemplate: OutputTemplate)
-                    .WriteTo.Console(restrictedToMinimumLevel: logLevel)
+                    .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Debug)
                     .WriteTo.MSSqlServer(
                         connectionString: connectionString,
                         sqlOptions,
